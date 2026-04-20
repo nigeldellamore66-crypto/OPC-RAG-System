@@ -6,18 +6,19 @@ from vectorization import build_vectorstore
 def generer_reponse(prompt):
     try:
         # Récupère les 3 derniers messages
-        historique = st.session_state.messages[-3:]
+        #historique = st.session_state.messages[-3:]
         
         # Formate l'historique en texte
-        historique_str = ""
-        for msg in historique:
-            role = "Utilisateur" if msg["role"] == "user" else "Assistant"
-            historique_str += f"{role}: {msg['content']}\n"
+        #historique_str = ""
+        #for msg in historique:
+        #    role = "Utilisateur" if msg["role"] == "user" else "Assistant"
+        #    historique_str += f"{role}: {msg['content']}\n"
         
         # Construit la question enrichie avec l'historique
-        prompt_with_history = f"Historique:\n{historique_str}\nQuestion: {prompt}"
+        #prompt_with_history = f"Historique:\n{historique_str}\nQuestion: {prompt}"
         
-        response = st.session_state.chain.invoke(prompt_with_history)
+        response = st.session_state.chain.invoke(prompt)
+        
         return response
     except Exception as e:
         st.error(f"Erreur lors de la génération de la réponse: {e}")

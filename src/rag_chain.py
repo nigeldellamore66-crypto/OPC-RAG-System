@@ -13,7 +13,7 @@ template = os.getenv("PROMPT_SYSTEM").replace("{today}", today)
 
 def build_rag_chain(vectorstore):
     # 1. Le retriever qui va chercher les k éléments les plus similaires dans l'index
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
     
     # 2. Le modèle Mistral sélectionné
     llm = ChatMistralAI(
