@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 load_dotenv()
 
+# URL de l'API OPENDATASOFT
 API_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records/"
 
 # Récupération de la région à filtrer depuis les variables d'environnement
@@ -15,8 +16,11 @@ today = datetime.now()
 one_year_ago = today - timedelta(days=365)
 date_str = one_year_ago.strftime("%Y-%m-%d")
 
-def fetch_events():
 
+"""
+Fonction permettant de requêter l'API avec une logique de pagination
+"""
+def fetch_events():
     all_results = []
     offset = 0
     limit = 100

@@ -4,7 +4,6 @@ import re
 from bs4 import BeautifulSoup
 
 def preprocess_events(events):
-
     # Appel de la fonction de nettoyage pour chaque événement et filtrage des événements invalides
     cleaned_events = []
     for result in events.get("results", []):
@@ -22,7 +21,8 @@ def clean_event(event):
     # Nettoyage des champs de l'événement
     if not event.get("longdescription_fr") or not event.get("title_fr"):
         return None  # Ignorer les événements sans description ou titre
-  
+    
+    # Formattage des évènements pour la vectorisation, optimisée pour la compréhension par le LLM
     cleaned_event = {
         "text": f"L'évenement {event.get('title_fr')}. aura lieu dans la ville de {event.get('location_city')}. , durant les dates suivantes: {format_timings(event.get('timings'))}. Voici sa description: {clean_html(event.get('longdescription_fr', ''))}",
         "metadata": {
@@ -44,7 +44,7 @@ def clean_html(text):
     return clean.strip()
 
 def format_timings(timings_str):
-    # Convertit les timings ISO en français lisible.
+    # Convertit les timings ISO en français lisible pour une meilleure ingestion par le LLM
     timings = json.loads(timings_str)
     
     formatted = []

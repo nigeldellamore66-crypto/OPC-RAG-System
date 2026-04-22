@@ -12,9 +12,9 @@ one_year_ago = today - timedelta(days=365)
 date_str = one_year_ago.strftime("%Y-%m-%d")
 
 def test_geographic_filter():
-    # Vérifie que tous les événements sont en Occitanie
+    # Vérifie que tous les événements sont en Île-de-France
     for event in events:
-        assert event["metadata"]["region"] == "Occitanie"
+        assert event["metadata"]["region"] == "Île-de-France"
 
 def test_date_filter():
     # Vérifie que toutes les dates sont >= aujourd'hui - 365 jours

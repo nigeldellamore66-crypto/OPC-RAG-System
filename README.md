@@ -8,7 +8,7 @@ Proof of Concept d'un chatbot intelligent basé sur un système **RAG (Retrieval
 
 - Démontrer la faisabilité technique d'un chatbot événementiel basé sur RAG
 - Permettre aux utilisateurs d'interroger le catalogue d'événements en langage naturel
-- Fournir des réponses basés sur les données réelles, sans hallucinations
+- Fournir des réponses ancrées dans les données réelles, sans hallucinations
 - Servir de base pour évaluer un déploiement à plus grande échelle
 
 ---
@@ -113,7 +113,7 @@ poetry run pytest tests/ -v
 
 - L'API OpenDataSoft limite les résultats à **10 000 événements**
 - Des **hallucinations occasionnelles** ont été observées malgré `temperature=0`
-- La recherche sémantique **ne filtre pas nativement par date** 
+- La recherche sémantique **ne filtre pas nativement par date** (filtrage Python en amont implémenté)
 
 ---
 
