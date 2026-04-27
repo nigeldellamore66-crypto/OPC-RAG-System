@@ -81,13 +81,15 @@ poetry run streamlit run src/app.py
 ```
 puls_events_rag/
 ├── src/
-│   ├── data_ingestion.py    # Récupération des données OpenDataSoft
-│   ├── preprocessing.py     # Nettoyage et filtrage des événements
-│   ├── vectorization.py     # Création de l'index FAISS
-│   ├── rag_chain.py         # Chaîne RAG LangChain + Mistral
-│   ├── build_index.py       # Script de construction de l'index
-│   ├── app.py               # Interface Streamlit
-│   └── .env.example         # Template des variables d'environnement
+│   ├── data_ingestion.py     # Récupération des données OpenDataSoft
+│   ├── preprocessing.py      # Nettoyage et filtrage des événements
+│   ├── vectorization.py      # Création de l'index FAISS
+│   ├── rag_chain.py          # Chaîne RAG LangChain + Mistral
+│   ├── build_index.py        # Script de construction de l'index
+│   ├── app.py                # Interface Streamlit
+│   ├── create_dataset_rag.py # Script qui enrichit le dataset d'évaluation avec le contexte et la réponse du LLM
+│   ├── evaluate_ragas.py     # Script d'évaluation du dataset qui utilise RAGAS
+│   └── .env.example          # Template des variables d'environnement
 │
 ├── data/
 │   ├── events_clean.json    # Données nettoyées (généré automatiquement)
@@ -128,3 +130,4 @@ poetry run pytest tests/ -v
 | Streamlit | Interface utilisateur |
 | BeautifulSoup | Nettoyage du HTML |
 | pytest | Tests unitaires |
+| RAGAS | Evaluation du modèle RAG |
