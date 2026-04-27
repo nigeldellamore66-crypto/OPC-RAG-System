@@ -1,6 +1,6 @@
 from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
@@ -13,7 +13,13 @@ template = os.getenv("PROMPT_SYSTEM").replace("{today}", today)
 
 def build_rag_chain(vectorstore):
     # 1. Le retriever qui va chercher les k éléments les plus similaires dans l'index
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
+    retriever = vectorstore.as_retriever(
+        search_type="similarity",
+        search_kwargs={
+            "k": 20,        # nombre de chunks envoyés au LLM
+            "fetch_k": 200  # pool de candidats avant ranking
+        }
+    )
     
     # 2. Le modèle Mistral sélectionné
     llm = ChatMistralAI(
@@ -27,12 +33,18 @@ def build_rag_chain(vectorstore):
         template=template,
         input_variables=["context", "question"]
     )
-     # Assemblage de la chaîne avec les 3 éléments
+     # Assemblage de la chaîne de génération de réponse
     chain = (
-        {"context": retriever, "question": RunnablePassthrough()}
-        | prompt
+        prompt
         | llm
         | StrOutputParser()
     )
 
-    return chain
+    # Chaîne complète avec docs et réponse
+    chain_with_source = RunnableParallel(
+        context=retriever,
+        question=RunnablePassthrough(),
+    ).assign(answer=chain)
+
+
+    return chain_with_source

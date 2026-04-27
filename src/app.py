@@ -3,26 +3,16 @@ import os
 from rag_chain import build_rag_chain
 from vectorization import build_vectorstore
 
-"""
-Fonction permettant de générer les réponses en appellant la chaîne définie dans rag_chain.py avec le prompt utilisateur en entrée
-"""
+
+# Fonction permettant de générer les réponses en appellant la chaîne définie dans rag_chain.py avec le prompt utilisateur en entrée
+
 def generer_reponse(prompt):
     try:
-        # Récupère les 3 derniers messages
-        #historique = st.session_state.messages[-3:]
         
-        # Formate l'historique en texte
-        #historique_str = ""
-        #for msg in historique:
-        #    role = "Utilisateur" if msg["role"] == "user" else "Assistant"
-        #    historique_str += f"{role}: {msg['content']}\n"
-        
-        # Construit la question enrichie avec l'historique
-        #prompt_with_history = f"Historique:\n{historique_str}\nQuestion: {prompt}"
-        
-        response = st.session_state.chain.invoke(prompt)
-        
-        return response
+        result = st.session_state.chain.invoke(prompt)
+        reponse = result["answer"]
+
+        return reponse
     except Exception as e:
         st.error(f"Erreur lors de la génération de la réponse: {e}")
         return "Je suis désolé, j'ai rencontré un problème. Veuillez réessayer."

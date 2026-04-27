@@ -2,6 +2,9 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_mistralai import MistralAIEmbeddings
 from langchain_community.vectorstores import FAISS
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # On appelle le recursive text splitter de langchain pour créer des chunks à partir de nos documents
 text_splitter = RecursiveCharacterTextSplitter(
@@ -22,9 +25,13 @@ def split_documents(events):
         text = event["text"]
         metadata = {
             "title": event["metadata"]["title"],
-            "location": event["metadata"]["location"],
             "city": event["metadata"]["city"],
-            "timings": event["metadata"]["timings"],
+            "region": event["metadata"]["region"],
+            "location": event["metadata"]["location"],
+            "firstdate": event["metadata"]["firstdate"],
+            "date_debut": event["metadata"]["date_debut"],
+            "date_fin": event["metadata"]["date_fin"],
+            "nb_occurrences": event["metadata"]["nb_occurrences"],
         }
         chunks = text_splitter.create_documents([text], metadatas=[metadata])
         documents.extend(chunks)
